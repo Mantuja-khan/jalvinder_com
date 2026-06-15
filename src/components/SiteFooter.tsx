@@ -1,0 +1,53 @@
+import { Link } from "@tanstack/react-router";
+import logo from "@/assets/logo.png";
+
+export function SiteFooter() {
+  return (
+    <footer className="bg-secondary mt-20 border-t border-border">
+      <div className="container mx-auto px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
+        <div className="col-span-2 md:col-span-1">
+          <div className="flex items-center gap-2">
+            <img
+              src={logo}
+              alt="Jalvindar Computer logo"
+              width={56}
+              height={56}
+              className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+            />
+          </div>
+          <p className="text-sm text-muted-foreground mt-3">
+            Laptop & desktop sales, repairs and CCTV installation — all under one trusted roof.
+          </p>
+        </div>
+        <div>
+          <h4 className="font-semibold mb-4">Shop</h4>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/shop">All Laptops</Link></li>
+            <li><Link to="/shop">Gaming</Link></li>
+            <li><Link to="/shop">Ultrabooks</Link></li>
+            <li><Link to="/shop">Business</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-semibold mb-4">Account</h4>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/orders">My Orders</Link></li>
+            <li><Link to="/cart">Cart</Link></li>
+            <li><Link to="/checkout">Checkout</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-semibold mb-4">Company</h4>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/about">About Us</Link></li>
+            <li>Support 24/7</li>
+            <li>Returns & Warranty</li>
+          </ul>
+        </div>
+      </div>
+      <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">
+        © {new Date().getFullYear()} Jalvindar Computer. All rights reserved.
+      </div>
+    </footer>
+  );
+}
