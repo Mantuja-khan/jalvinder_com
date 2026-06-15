@@ -16,7 +16,10 @@ const orderRoutes = require('./routes/orders');
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: config.corsOrigin, credentials: true }));
+const corsOriginOption = config.corsOrigin && config.corsOrigin.includes(',')
+  ? config.corsOrigin.split(',').map(o => o.trim())
+  : config.corsOrigin;
+app.use(cors({ origin: corsOriginOption, credentials: true }));
 app.use(express.json({ limit: '1mb' }));
 app.use(morgan('dev'));
 app.use('/api/', rateLimit({ windowMs: 60_000, max: 200 }));

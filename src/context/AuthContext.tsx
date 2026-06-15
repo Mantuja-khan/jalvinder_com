@@ -20,7 +20,7 @@ type Ctx = {
 const C = createContext<Ctx | null>(null);
 const TOKEN_KEY = "lh_token_v1";
 const SESSION_KEY = "lh_session_v1";
-const API_BASE = "http://localhost:5009/api";
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "https://api.jalvindercomputer.com/api" : "http://localhost:5009/api");
 
 const ADMIN_EMAIL = "jalvindercomputertechnology@gmail.com";
 const ADMIN_PASSWORD = "admin123";
