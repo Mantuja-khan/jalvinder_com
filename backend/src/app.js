@@ -1,6 +1,9 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 
@@ -20,7 +23,7 @@ const corsOriginOption = config.corsOrigin && config.corsOrigin.includes(',')
   ? config.corsOrigin.split(',').map(o => o.trim())
   : config.corsOrigin;
 app.use(cors({ origin: corsOriginOption, credentials: true }));
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: '500mb' }));
 app.use(morgan('dev'));
 app.use('/api/', rateLimit({ windowMs: 60_000, max: 200 }));
 
