@@ -3,8 +3,14 @@ import logo from "@/assets/logo.png";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-secondary mt-20 border-t border-border">
-      <div className="container mx-auto px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
+    <footer
+      className="mt-20 border-t border-border relative overflow-hidden bg-cover bg-center"
+      style={{
+        backgroundImage: "url('https://i.pinimg.com/1200x/9d/ab/d7/9dabd7bf2489a7c94fd3ce615c01e57e.jpg')",
+      }}
+    >
+      <div className="absolute inset-0 bg-background/90 backdrop-blur-[2px]" />
+      <div className="relative container mx-auto px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-2">
             <img

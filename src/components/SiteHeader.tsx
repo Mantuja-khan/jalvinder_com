@@ -75,8 +75,8 @@ export function SiteHeader() {
 
       <div className="container mx-auto px-4 h-20 flex items-center gap-6">
         <Link to="/" className="flex flex-col justify-center leading-none shrink-0 font-heading">
-          <span className="text-lg sm:text-xl font-black tracking-wider uppercase text-primary">Jalvinder Computer</span>
-          <span className="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-[0.25em] font-bold mt-1 font-sans">Technologies</span>
+          <span className="text-lg sm:text-x3 font-black tracking-wider uppercase text-primary">Jalvinder Computer</span>
+          <span className="text-lg sm:text-x3 font-black tracking-wider uppercase text-primary">Technologies</span>
         </Link>
 
         <div ref={wrapperRef} className="hidden md:block flex-1 max-w-xl relative">

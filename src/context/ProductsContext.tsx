@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Laptop } from "@/data/laptops";
 import { API_BASE } from "./AuthContext";
+import rentalServicesImg from "@/assets/rental-services.png";
 
 export type FeaturedSlot = "hero" | "bestseller" | "bestTop" | "promo";
 
@@ -37,7 +38,7 @@ const HERO_KEY = "lh_hero_slides_v2";
 const DEFAULT_HERO_SLIDES: HeroSlide[] = [
   {
     id: "slide-1",
-    image: "https://gizmodo.com/app/uploads/2024/01/fe6d4f3fe1499877ed7f98cd5675a6ae-1792x1008.jpg",
+    image: "https://i.pinimg.com/1200x/3d/61/a2/3d61a2283e48219475b14cc6f33a103c.jpg",
     title: "Laptops & Desktops",
     subtitle: "Top brands at unbeatable prices",
     cta: "Shop Now",
@@ -45,7 +46,7 @@ const DEFAULT_HERO_SLIDES: HeroSlide[] = [
   },
   {
     id: "slide-2",
-    image: "https://i.pinimg.com/1200x/9e/44/1e/9e441e5cfb38c7cab1d08c5f68c50352.jpg",
+    image: "https://i.pinimg.com/736x/8a/d5/0c/8ad50cea21d4eff8cd04427965e0670d.jpg",
     title: "CCTV Installation",
     subtitle: "Secure your home & business",
     cta: "Explore Services",
@@ -53,8 +54,8 @@ const DEFAULT_HERO_SLIDES: HeroSlide[] = [
   },
   {
     id: "slide-3",
-    image: "https://i.pinimg.com/736x/d1/47/a7/d147a73c9215dc3028fe5f7c6a51213f.jpg",
-    title: "Computer Repairs & AMC",
+    image: "https://i.pinimg.com/1200x/47/4c/f3/474cf3bad5cfe9dddfdb2318be6d8fe0.jpg",
+    title: "Rental Services",
     subtitle: "Trusted service since years",
     cta: "Contact Us",
     link: "/contact",
@@ -130,14 +131,14 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
         try {
           const parsed = JSON.parse(h);
           const updated = parsed.map((s: any) => {
-            if (s.image && (s.image.includes("photo-1593642632559-0c6d3fc62b89") || s.image.includes("unsplash.com/photo-1593642632559") || s.image.includes("0ff8b77fbc24f3226a8d431d20838293"))) {
-              return { ...s, image: "https://gizmodo.com/app/uploads/2024/01/fe6d4f3fe1499877ed7f98cd5675a6ae-1792x1008.jpg" };
+            if (s.id === "slide-1") {
+              return { ...s, image: "https://i.pinimg.com/1200x/3d/61/a2/3d61a2283e48219475b14cc6f33a103c.jpg" };
             }
-            if (s.image && s.image.includes("cctv-install.png")) {
-              return { ...s, image: "https://i.pinimg.com/1200x/9e/44/1e/9e441e5cfb38c7cab1d08c5f68c50352.jpg" };
+            if (s.id === "slide-2") {
+              return { ...s, image: "https://i.pinimg.com/736x/8a/d5/0c/8ad50cea21d4eff8cd04427965e0670d.jpg" };
             }
-            if (s.image && (s.image.includes("photo-1518770660439-4636190af475") || s.image.includes("unsplash.com/photo-1518770660439"))) {
-              return { ...s, image: "https://i.pinimg.com/736x/d1/47/a7/d147a73c9215dc3028fe5f7c6a51213f.jpg" };
+            if (s.id === "slide-3") {
+              return { ...s, title: "Rental Services", image: "https://i.pinimg.com/1200x/47/4c/f3/474cf3bad5cfe9dddfdb2318be6d8fe0.jpg" };
             }
             return s;
           });

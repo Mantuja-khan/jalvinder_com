@@ -164,10 +164,19 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  p {
+    text-transform: uppercase;
   }
 
   p, span, a, button, input, textarea, select, li, label {
     font-family: var(--font-sans);
+  }
+
+  button, .btn, .button, [role="button"], footer a, footer h4, header nav a, header button {
+    text-transform: uppercase;
   }
 
   mark.search-hl {

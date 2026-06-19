@@ -25,11 +25,6 @@ export function ProductCard({ p }: { p: Laptop }) {
       params={{ id: p.id }}
       className="group bg-card border border-border rounded-lg p-3 sm:p-4 flex flex-col hover:shadow-lg hover:border-primary/40 transition relative"
     >
-      {p.badge && (
-        <span className="absolute top-3 left-3 z-10 bg-destructive text-destructive-foreground text-[10px] font-bold px-2 py-1 rounded">
-          {p.badge}
-        </span>
-      )}
       <div className="aspect-square bg-secondary rounded-md flex items-center justify-center overflow-hidden">
         <img
           src={p.image}
