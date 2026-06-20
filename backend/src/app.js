@@ -35,17 +35,15 @@ app.use(cors({
   },
   credentials: true
 }));
-
 app.options('*', cors());
-
 app.use(helmet());
 app.use(express.json({ limit: '500mb' }));
 app.use(morgan('dev'));
 app.use('/api/', rateLimit({ windowMs: 60_000, max: 200 }));
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
-
 app.use('/api/auth', authRoutes);
+app.use(api)
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/reviews', reviewRoutes);

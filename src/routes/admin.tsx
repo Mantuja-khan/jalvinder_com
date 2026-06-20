@@ -168,7 +168,7 @@ function Admin() {
     setShowForm(true);
   };
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsePairs = (t: string) =>
       t
@@ -207,16 +207,21 @@ function Admin() {
       specs,
       features: features.length > 0 ? features : undefined,
     };
-    if (editingId) {
-      update(editingId, payload);
-      toast.success("Product updated");
-    } else {
-      add(payload);
-      toast.success("Product added");
+    try {
+      if (editingId) {
+        await update(editingId, payload);
+        toast.success("Product updated");
+      } else {
+        await add(payload);
+        toast.success("Product added");
+      }
+      setShowForm(false);
+      setEditingId(null);
+      setDraft(EMPTY);
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message || "Failed to save product");
     }
-    setShowForm(false);
-    setEditingId(null);
-    setDraft(EMPTY);
   };
 
   const onDelete = (id: string, name: string) => {
