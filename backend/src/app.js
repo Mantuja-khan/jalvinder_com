@@ -3,7 +3,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-
+const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 
 const config = require('./config');
@@ -43,7 +43,6 @@ app.use('/api/', rateLimit({ windowMs: 60_000, max: 200 }));
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.use('/api/auth', authRoutes);
-app.use(api)
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/reviews', reviewRoutes);

@@ -22,8 +22,8 @@ type Ctx = {
   categories: Category[];
   addCategory: (name: string) => Promise<void>;
   removeCategory: (id: string) => Promise<void>;
-  addSubcategory: (categoryId: string, name: string) => void;
-  removeSubcategory: (categoryId: string, subId: string) => void;
+  addSubcategory: (categoryId: string, name: string) => Promise<void>;
+  removeSubcategory: (categoryId: string, subId: string) => Promise<void>;
   // Hero slides
   heroSlides: HeroSlide[];
   addHeroSlide: (s: Omit<HeroSlide, "id">) => void;
@@ -180,7 +180,13 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
 
     if (!res.ok) {
       const err = await res.json();
-      throw new Error(err.message || "Failed to add product");
+      let errMsg = err.error || "Failed to add product";
+      if (err.details && err.details.fieldErrors) {
+        const fields = Object.keys(err.details.fieldErrors);
+        const details = fields.map(f => `${f}: ${err.details.fieldErrors[f].join(", ")}`).join("; ");
+        errMsg += ` (${details})`;
+      }
+      throw new Error(errMsg);
     }
     await fetchProducts();
   };
@@ -201,7 +207,13 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
 
     if (!res.ok) {
       const err = await res.json();
-      throw new Error(err.message || "Failed to update product");
+      let errMsg = err.error || "Failed to update product";
+      if (err.details && err.details.fieldErrors) {
+        const fields = Object.keys(err.details.fieldErrors);
+        const details = fields.map(f => `${f}: ${err.details.fieldErrors[f].join(", ")}`).join("; ");
+        errMsg += ` (${details})`;
+      }
+      throw new Error(errMsg);
     }
     await fetchProducts();
   };

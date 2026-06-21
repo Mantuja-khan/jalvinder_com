@@ -23,6 +23,8 @@ const productSchema = z.object({
   deliveryDays: z.number().nonnegative().optional(),
   specs: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
   features: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
+  inStock: z.boolean().optional(),
+  offers: z.array(z.string()).optional(),
 });
 
 router.get('/', ctrl.list);
