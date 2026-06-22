@@ -15,14 +15,14 @@ export const Route = createFileRoute("/services")({
 });
 
 export const SERVICES = [
-  { Icon: LaptopIcon, t: "Laptop Sales & Service", s: "New & branded laptops with on-site repair, upgrades and warranty support." },
-  { Icon: Monitor, t: "Desktop Sales & Service", s: "Custom-built desktops, assembled PCs and complete servicing for home or office." },
-  { Icon: Cctv, t: "CCTV Installation", s: "End-to-end CCTV camera setup with DVR/NVR, mobile viewing and AMC support." },
-  { Icon: Network, t: "Networking & Wi-Fi", s: "LAN, Wi-Fi and router setup for shops, offices and homes." },
-  { Icon: HardDrive, t: "Data Recovery & Backup", s: "Recover lost data from HDD, SSD and pen drives — safe and confidential." },
-  { Icon: Printer, t: "Printer Sales & Repair", s: "Inkjet and laser printer sales, cartridge refills and service." },
-  { Icon: Wrench, t: "Annual Maintenance (AMC)", s: "Monthly and yearly maintenance contracts for businesses and institutions." },
-  { Icon: ShieldCheck, t: "Antivirus & Software", s: "Windows installation, antivirus setup and productivity software." },
+  { Icon: LaptopIcon, t: "Laptop Sales & Service", s: "New & branded laptops with on-site repair, upgrades and warranty support.", bg: "https://i.pinimg.com/1200x/1f/71/d5/1f71d569307962f05f0971fd437b5873.jpg" },
+  { Icon: Monitor, t: "Desktop Sales & Service", s: "Custom-built desktops, assembled PCs and complete servicing for home or office.", bg: "https://i.pinimg.com/1200x/b0/12/f5/b012f5a8c77d06c37aabd96d81d2c97e.jpg" },
+  { Icon: Cctv, t: "CCTV Installation", s: "End-to-end CCTV camera setup with DVR/NVR, mobile viewing and AMC support.", bg: "https://i.pinimg.com/736x/32/21/77/3221775710f21f554b9379e5099d5a62.jpg" },
+  { Icon: Network, t: "Networking & Wi-Fi", s: "LAN, Wi-Fi and router setup for shops, offices and homes.", bg: "https://i.pinimg.com/1200x/4b/5f/20/4b5f201c35da82e7b80c2da09fb3f11a.jpg" },
+  { Icon: HardDrive, t: "Data Recovery & Backup", s: "Recover lost data from HDD, SSD and pen drives — safe and confidential.", bg: "https://i.pinimg.com/1200x/bb/8d/d4/bb8dd48c2addc88f70b31c7e99cf2f9f.jpg" },
+  { Icon: Printer, t: "Printer Sales & Repair", s: "Inkjet and laser printer sales, cartridge refills and service.", bg: "https://i.pinimg.com/736x/eb/02/3e/eb023e44a9858cd14f17fe3843b355b0.jpg" },
+  { Icon: Wrench, t: "Annual Maintenance (AMC)", s: "Monthly and yearly maintenance contracts for businesses and institutions.", bg: "https://i.pinimg.com/736x/6b/96/70/6b9670b726e2b55a6a57391391558187.jpg" },
+  { Icon: ShieldCheck, t: "Antivirus & Software", s: "Windows installation, antivirus setup and productivity software.", bg: "https://i.pinimg.com/736x/8c/29/1f/8c291fbd3df90716f0bfca48b54fa61f.jpg" },
 ];
 
 function Services() {
@@ -50,17 +50,29 @@ function Services() {
 
       {/* Services Grid */}
       <section className="container mx-auto px-4 py-16 md:py-24">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {SERVICES.map(({ Icon, t, s }, i) => (
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {SERVICES.map(({ Icon, t, s, bg }, i) => (
             <FadeIn key={t} delay={i * 60} direction="up">
-              <div className="group bg-card border border-border/80 rounded-2xl p-6 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col h-full">
-                <div className="bg-primary/5 text-primary group-hover:bg-primary group-hover:text-primary-foreground rounded-xl p-3 inline-flex w-fit transition-colors duration-300">
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-lg font-bold mt-5 tracking-tight group-hover:text-primary transition-colors duration-200">{t}</h3>
-                <p className="text-xs text-muted-foreground mt-3 leading-relaxed flex-1">{s}</p>
-                <div className="mt-5 pt-4 border-t border-border/40 flex items-center justify-end">
-                  <span className="text-muted-foreground/30 text-xs">0{i + 1}</span>
+              <div
+                className="relative overflow-hidden group border border-border/80 rounded-2xl p-8 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col h-full min-h-[280px]"
+                style={{
+                  backgroundImage: `url('${bg}')`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                {/* Backdrop Overlay */}
+                <div className="absolute inset-0 bg-black/65 group-hover:bg-black/55 transition-colors duration-300 pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col h-full text-white">
+                  <div className="bg-primary/20 text-white rounded-xl p-3 inline-flex w-fit backdrop-blur-sm">
+                    <Icon className="h-7 w-7" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold mt-5 tracking-tight text-white group-hover:text-primary transition-colors duration-200">{t}</h3>
+                  <p className="text-sm sm:text-base text-gray-200 mt-3 leading-relaxed flex-1">{s}</p>
+                  <div className="mt-5 pt-4 border-t border-white/20 flex items-center justify-end">
+                    <span className="text-white/40 text-xs">0{i + 1}</span>
+                  </div>
                 </div>
               </div>
             </FadeIn>

@@ -16,9 +16,7 @@ export function SiteFooter() {
             <img
               src={logo}
               alt="Jalvindar Computer logo"
-              width={56}
-              height={56}
-              className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+              className="h-14 w-auto object-contain"
             />
           </div>
           <p className="text-sm text-muted-foreground mt-3">

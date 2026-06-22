@@ -73,114 +73,138 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
 
-      <div className="container mx-auto px-4 h-20 flex items-center gap-6">
-        <Link to="/" className="flex flex-col justify-center leading-none shrink-0 font-heading">
-          <span className="text-lg sm:text-x3 font-black tracking-wider uppercase text-primary">Jalvinder Computer</span>
-          <span className="text-lg sm:text-x3 font-black tracking-wider uppercase text-primary">Technologies</span>
-        </Link>
-
-        <div ref={wrapperRef} className="hidden md:block flex-1 max-w-xl relative">
-          <div className="flex items-center gap-2 border border-border rounded-full px-4 py-2">
-            <Search className="h-4 w-4 text-muted-foreground" />
-            <input
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setOpen(true);
-              }}
-              onFocus={() => setOpen(true)}
-              placeholder="Search laptops, brands, specs..."
-              className="bg-transparent outline-none text-sm flex-1"
+      <div className="container mx-auto px-2 h-20 flex items-center justify-between w-auto">
+        {/* Logo Container - 20% */}
+        <div className="w-1/5 flex items-center justify-start shrink-0">
+          <Link to="/" className="flex items-center shrink-0">
+            <img
+              src={logo}
+              alt="Jalvinder Computer Technology"
+              className="h-20 w-auto object-contain scale-250 origin-left"
             />
-            {query && (
-              <button
-                onClick={() => {
-                  setQuery("");
-                  setOpen(false);
-                }}
-                className="text-muted-foreground hover:text-foreground"
-                aria-label="Clear search"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
-          </div>
-
-          {open && query.trim() && (
-            <div className="absolute left-0 right-0 top-full mt-2 bg-popover border border-border rounded-xl shadow-lg overflow-hidden z-50">
-              {results.length === 0 ? (
-                <p className="p-5 text-sm text-muted-foreground text-center">
-                  No products match "<span className="font-medium text-foreground">{query}</span>".
-                </p>
-              ) : (
-                <ul className="max-h-[420px] overflow-y-auto divide-y divide-border">
-                  {results.map((l) => (
-                    <li key={l.id}>
-                      <div className="w-full flex gap-3 p-3 items-center hover:bg-accent/40 transition-colors">
-                        <button
-                          onClick={() => {
-                            setOpen(false);
-                            setQuery("");
-                            navigate({ to: "/product/$id", params: { id: l.id } });
-                          }}
-                          className="flex gap-3 flex-1 min-w-0 text-left"
-                        >
-                          <img
-                            src={l.image}
-                            alt={l.name}
-                            className="w-14 h-14 object-contain bg-secondary rounded-md shrink-0"
-                          />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold truncate">
-                              <Highlight text={l.name} query={query} />
-                            </p>
-                            <span className="text-sm font-bold text-price">
-                              ₹{Math.round(l.price * 83).toLocaleString("en-IN")}
-                            </span>
-                          </div>
-                        </button>
-                        <button
-                          onClick={() => {
-                            setOpen(false);
-                            setQuery("");
-                            navigate({ to: "/product/$id", params: { id: l.id } });
-                          }}
-                          className="shrink-0 bg-primary text-primary-foreground rounded-full px-3 py-1.5 text-[11px] font-semibold hover:opacity-90"
-                        >
-                          BUY NOW
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
+          </Link>
         </div>
 
-        <nav className="hidden lg:flex items-center gap-5 text-sm font-medium">
-          {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              activeOptions={{ exact: n.to === "/" }}
-              activeProps={{ className: "text-primary" }}
-              className="hover:text-primary transition-colors"
+        {/* Search Bar Container - 40% */}
+        <div className="w-1/2 px-10 flex justify-center">
+          <div ref={wrapperRef} className="hidden md:block w-full max-w-lg relative">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (query.trim()) {
+                  setOpen(false);
+                  navigate({ to: "/shop", search: { q: query.trim() } });
+                }
+              }}
+              className="flex items-center gap-2 border border-border rounded-full px-4 py-2 w-full"
             >
-              {n.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="flex items-center gap-3 ml-auto">
-          <AuthMenu />
-          <Link to="/cart" className="relative text-foreground/70 hover:text-primary">
-            <ShoppingCart className="h-6 w-6" />
-            {count > 0 && (
-              <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                {count}
-              </span>
+              <button type="submit" className="text-muted-foreground hover:text-primary transition-colors">
+                <Search className="h-4 w-4" />
+              </button>
+              <input
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setOpen(true);
+                }}
+                onFocus={() => setOpen(true)}
+                placeholder="Search laptops, brands, specs..."
+                className="bg-transparent outline-none text-sm flex-1 w-full"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    setOpen(false);
+                  }}
+                  className="text-muted-foreground hover:text-foreground"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </form>
+
+            {open && query.trim() && (
+              <div className="absolute left-0 right-0 top-full mt-2 bg-popover border border-border rounded-xl shadow-lg overflow-hidden z-50">
+                {results.length === 0 ? (
+                  <p className="p-5 text-sm text-muted-foreground text-center">
+                    No products match "<span className="font-medium text-foreground">{query}</span>".
+                  </p>
+                ) : (
+                  <ul className="max-h-[420px] overflow-y-auto divide-y divide-border">
+                    {results.map((l) => (
+                      <li key={l.id}>
+                        <div className="w-full flex gap-3 p-3 items-center hover:bg-accent/40 transition-colors">
+                          <button
+                            onClick={() => {
+                              setOpen(false);
+                              setQuery("");
+                              navigate({ to: "/product/$id", params: { id: l.id } });
+                            }}
+                            className="flex gap-3 flex-1 min-w-0 text-left"
+                          >
+                            <img
+                              src={l.image}
+                              alt={l.name}
+                              className="w-14 h-14 object-contain bg-secondary rounded-md shrink-0"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold truncate">
+                                <Highlight text={l.name} query={query} />
+                              </p>
+                              <span className="text-sm font-bold text-price">
+                                ₹{Math.round(l.price * 83).toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          </button>
+                          <button
+                            onClick={() => {
+                              setOpen(false);
+                              setQuery("");
+                              navigate({ to: "/product/$id", params: { id: l.id } });
+                            }}
+                            className="shrink-0 bg-primary text-primary-foreground rounded-full px-3 py-1.5 text-[11px] font-semibold hover:opacity-90"
+                          >
+                            BUY NOW
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             )}
-          </Link>
+          </div>
+        </div>
+
+        {/* Buttons / Navigation / Auth Container - 40% */}
+        <div className="w-2/5 flex items-center justify-end gap-6">
+          <nav className="hidden lg:flex items-center gap-5 text-sm font-medium">
+            {nav.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                activeOptions={{ exact: n.to === "/" }}
+                activeProps={{ className: "text-primary" }}
+                className="hover:text-primary transition-colors"
+              >
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex items-center gap-3">
+            <AuthMenu />
+            <Link to="/cart" className="relative text-foreground/70 hover:text-primary">
+              <ShoppingCart className="h-6 w-6" />
+              {count > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {count}
+                </span>
+              )}
+            </Link>
+          </div>
         </div>
       </div>
     </header>

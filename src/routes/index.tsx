@@ -22,7 +22,7 @@ function Home() {
   const best = featured.bestseller
     .map((id) => products.find((p) => p.id === id))
     .filter((p): p is NonNullable<typeof p> => Boolean(p))
-    .slice(0, 5);
+    .slice(0, 4);
   const bestTop = featured.bestTop
     .map((id) => products.find((p) => p.id === id))
     .filter((p): p is NonNullable<typeof p> => Boolean(p))
@@ -36,6 +36,25 @@ function Home() {
     <div>
       <DragHero />
 
+      {/* Latest products */}
+      {latest.length > 0 && (
+        <FadeIn>
+          <section className="container mx-auto px-4 py-12 sm:py-14">
+            <div className="flex items-end justify-between mb-6">
+              <h2 className="text-2xl font-bold">Latest Products</h2>
+              <Link to="/shop" className="text-sm text-primary font-medium">VIEW ALL</Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {latest.map((p, i) => (
+                <FadeIn key={p.id} delay={i * 60} direction="up">
+                  <ProductCard p={p} />
+                </FadeIn>
+              ))}
+            </div>
+          </section>
+        </FadeIn>
+      )}
+
       {/* Services */}
       <FadeIn>
         <section className="container mx-auto px-4 py-12 sm:py-14">
@@ -46,40 +65,33 @@ function Home() {
             </div>
             <Link to="/services" className="text-sm text-primary font-medium">VIEW ALL</Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {SERVICES.slice(0, 8).map(({ Icon, t, s }, i) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {SERVICES.slice(0, 4).map(({ Icon, t, s, bg }, i) => (
               <FadeIn key={t} delay={i * 80} direction="up">
-                <div className="border border-border rounded-xl p-4 sm:p-5 hover:border-primary/40 hover:shadow-md transition">
-                  <div className="bg-primary/10 text-primary rounded-md p-2.5 inline-flex">
-                    <Icon className="h-5 w-5" />
+                <div
+                  className="relative overflow-hidden group border border-border rounded-xl p-5 sm:p-6 hover:border-primary/40 hover:shadow-md transition h-full flex flex-col justify-between min-h-[220px]"
+                  style={{
+                    backgroundImage: `url('${bg}')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  {/* Backdrop Overlay */}
+                  <div className="absolute inset-0 bg-black/65 group-hover:bg-black/55 transition-colors duration-300 pointer-events-none" />
+
+                  <div className="relative z-10 text-white">
+                    <div className="bg-primary/20 text-white rounded-md p-3 inline-flex backdrop-blur-sm">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-sm sm:text-base md:text-lg font-bold mt-4 text-white">{t}</h3>
+                    <p className="text-xs sm:text-sm text-gray-200 mt-2 leading-relaxed">{s}</p>
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold mt-3">{t}</h3>
-                  <p className="text-[11px] sm:text-xs text-muted-foreground mt-1.5 leading-relaxed line-clamp-3">{s}</p>
                 </div>
               </FadeIn>
             ))}
           </div>
         </section>
       </FadeIn>
-
-      {/* Latest products */}
-      {latest.length > 0 && (
-        <FadeIn>
-          <section className="container mx-auto px-4 py-12 sm:py-14">
-            <div className="flex items-end justify-between mb-6">
-              <h2 className="text-2xl font-bold">Latest Products</h2>
-              <Link to="/shop" className="text-sm text-primary font-medium">VIEW ALL</Link>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {latest.map((p, i) => (
-                <FadeIn key={p.id} delay={i * 60} direction="up">
-                  <ProductCard p={p} />
-                </FadeIn>
-              ))}
-            </div>
-          </section>
-        </FadeIn>
-      )}
 
       {promoProducts.length > 0 && (
         <FadeIn>
@@ -142,7 +154,7 @@ function Home() {
             )}
 
             {best.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {best.map((p, i) => (
                   <FadeIn key={p.id} delay={i * 60} direction="up">
                     <ProductCard p={p} />
