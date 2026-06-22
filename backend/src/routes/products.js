@@ -31,6 +31,7 @@ router.get('/', ctrl.list);
 router.get('/:id', ctrl.get);
 router.post('/', requireAuth, requireAdmin, validate(productSchema), ctrl.create);
 router.put('/:id', requireAuth, requireAdmin, validate(productSchema.partial()), ctrl.update);
+router.patch('/:id', requireAuth, requireAdmin, validate(productSchema.partial()), ctrl.update);
 router.delete('/:id', requireAuth, requireAdmin, ctrl.remove);
 
 module.exports = router;
