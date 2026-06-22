@@ -58,7 +58,7 @@ function AdminLogin() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="jalvindercomputertechnology@gmail.com"
+              placeholder="Enter admin email"
               className={inputCls}
             />
           </Field>
@@ -81,12 +81,6 @@ function AdminLogin() {
             {loading ? "Signing in..." : "Enter Admin Panel"}
           </button>
         </form>
-
-        <div className="mt-6 text-xs text-muted-foreground bg-muted/50 border border-border rounded-md p-3 text-center">
-          <strong className="text-foreground">Demo credentials:</strong>
-          <br />
-          {ADMIN_HINT.email} / {ADMIN_HINT.password}
-        </div>
       </div>
     </div>
   );

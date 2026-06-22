@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const { products, featured } = useProducts();
-  const latest = products.slice(0, 5);
+  const latest = products.slice(0, 8);
   const best = featured.bestseller
     .map((id) => products.find((p) => p.id === id))
     .filter((p): p is NonNullable<typeof p> => Boolean(p))

@@ -1,19 +1,24 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
 import { Star, Minus, Plus, Truck, ShieldCheck, RotateCcw, MessageCircle, Store, Tag, CheckCircle2 } from "lucide-react";
-import { getLaptop, laptops } from "@/data/laptops";
+import { getLaptop } from "@/data/laptops";
 import { useCart } from "@/context/CartContext";
 import { useReviews } from "@/context/ReviewsContext";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth, API_BASE } from "@/context/AuthContext";
+import { useProducts } from "@/context/ProductsContext";
 import { ProductCard } from "@/components/ProductCard";
 import { formatINR } from "@/lib/format";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$id")({
-  loader: ({ params }) => {
-    const p = getLaptop(params.id);
-    if (!p) throw notFound();
-    return p;
+  loader: async ({ params }) => {
+    try {
+      const res = await fetch(`${API_BASE}/products/${params.id}`);
+      if (!res.ok) throw notFound();
+      return await res.json();
+    } catch {
+      throw notFound();
+    }
   },
   component: ProductPage,
   head: ({ loaderData }) => ({
@@ -57,7 +62,8 @@ function ProductPage() {
   const { avg, count } = averageFor(p.id, p.rating);
   const displayRating = count > 0 ? avg : p.rating;
 
-  const related = laptops.filter((l) => l.id !== p.id).slice(0, 4);
+  const { products } = useProducts();
+  const related = products.filter((l) => l.id !== p.id).slice(0, 4);
   const discount =
     p.oldPrice && p.oldPrice > p.price
       ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)
