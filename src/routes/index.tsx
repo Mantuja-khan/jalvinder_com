@@ -66,10 +66,10 @@ function Home() {
             <Link to="/services" className="text-sm text-primary font-medium">VIEW ALL</Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            {SERVICES.slice(0, 4).map(({ Icon, t, s, bg }, i) => (
+            {SERVICES.slice(0, 8).map(({ Icon, t, s, bg }, i) => (
               <FadeIn key={t} delay={i * 80} direction="up">
                 <div
-                  className="relative overflow-hidden group border border-border rounded-xl p-5 sm:p-6 hover:border-primary/40 hover:shadow-md transition h-full flex flex-col justify-between min-h-[220px]"
+                  className="relative overflow-hidden group border border-border rounded-none p-5 sm:p-6 hover:border-primary/40 hover:shadow-md transition h-full flex flex-col justify-between min-h-[220px]"
                   style={{
                     backgroundImage: `url('${bg}')`,
                     backgroundSize: "cover",

@@ -12,11 +12,11 @@ export function SiteFooter() {
       <div className="absolute inset-0 bg-background/90 backdrop-blur-[2px]" />
       <div className="relative container mx-auto px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 relative h-20 overflow-visible">
             <img
               src={logo}
               alt="Jalvindar Computer logo"
-              className="h-14 w-auto object-contain"
+              className="h-20 w-auto object-contain scale-250 origin-left"
             />
           </div>
           <p className="text-sm text-muted-foreground mt-3">

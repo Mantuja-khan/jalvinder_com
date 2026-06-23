@@ -77,7 +77,7 @@ export function DragHero() {
                 <div className="absolute inset-0 flex items-center">
                   <div className="container mx-auto px-4 sm:px-6">
                     <div className="max-w-lg text-white">
-                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold leading-tight drop-shadow">
+                      <h2 className="text-2xl sm:text-4xl md:text-5xl font-black leading-tight bg-gradient-to-r from-yellow-300 via-pink-400 to-cyan-300 bg-clip-text text-transparent pb-1">
                         {s.title}
                       </h2>
                       <p className="mt-2 sm:mt-3 text-xs sm:text-base text-white/90">

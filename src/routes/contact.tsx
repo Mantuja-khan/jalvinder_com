@@ -31,11 +31,17 @@ function Contact() {
   return (
     <div>
       <FadeIn>
-        <section className="bg-banner">
-          <div className="container mx-auto px-4 py-14 max-w-3xl text-center">
+        <section
+          className="relative overflow-hidden bg-cover bg-center py-14"
+          style={{
+            backgroundImage: "url('https://i.pinimg.com/736x/25/48/ee/2548eec8ac03570b81f764ed4787149b.jpg')",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
+          <div className="relative z-10 container mx-auto px-4 py-14 max-w-3xl text-center text-white">
             <p className="text-sm text-primary font-semibold uppercase tracking-wider">Get in touch</p>
-            <h1 className="text-4xl md:text-5xl font-extrabold mt-3">We're here to help</h1>
-            <p className="text-muted-foreground mt-4">
+            <h1 className="text-4xl md:text-5xl font-extrabold mt-3 text-white">We're here to help</h1>
+            <p className="text-gray-300 mt-4">
               Questions about a product, an order or returns? Send us a message and our team will respond within
               one business day.
             </p>
@@ -49,7 +55,7 @@ function Contact() {
             {[
               { Icon: Mail, t: "Email", s: "jalvindercomputertechnology@gmail.com" },
               { Icon: Phone, t: "Contact Numbers", s: "+91-9352190208 / +91-7690085046 / 01493-491035" },
-              { Icon: MapPin, t: "Office Address", s: "E-GF08, Capital Highstreet, Phoolbagh Chowk, Bhiwadi - 301019" },
+              { Icon: MapPin, t: "Office Address", s: "Shop No.E-GF08, Phool Bhag Choke Bhiwadi, Capitalhigh Street Phool Bhag Bhiwadi, Industrial Area, Bhiwadi-301019, Rajasthan" },
               { Icon: Clock, t: "Location & Hours", s: "Jitander · Mon–Sat · 9:00 AM – 8:00 PM" },
             ].map(({ Icon, t, s }, i) => (
               <FadeIn key={t} delay={i * 100} direction="up">

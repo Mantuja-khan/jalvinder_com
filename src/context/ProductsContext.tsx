@@ -39,24 +39,24 @@ const DEFAULT_HERO_SLIDES: HeroSlide[] = [
   {
     id: "slide-1",
     image: "https://i.pinimg.com/1200x/3d/61/a2/3d61a2283e48219475b14cc6f33a103c.jpg",
-    title: "Laptops & Desktops",
-    subtitle: "Top brands at unbeatable prices",
+    title: "Premium Laptops & Custom Desktops",
+    subtitle: "Explore top brands, custom assembled PCs, upgrades, and expert hardware support at unbeatable prices.",
     cta: "Shop Now",
     link: "/shop",
   },
   {
     id: "slide-2",
     image: "https://i.pinimg.com/736x/8a/d5/0c/8ad50cea21d4eff8cd04427965e0670d.jpg",
-    title: "CCTV Installation",
-    subtitle: "Secure your home & business",
+    title: "Professional CCTV Camera Installation",
+    subtitle: "Ensure absolute peace of mind with end-to-end security setup, DVR/NVR configuration, and 24/7 mobile viewing support.",
     cta: "Explore Services",
     link: "/services",
   },
   {
     id: "slide-3",
     image: "https://i.pinimg.com/1200x/47/4c/f3/474cf3bad5cfe9dddfdb2318be6d8fe0.jpg",
-    title: "Rental Services",
-    subtitle: "Trusted service since years",
+    title: "Reliable IT & Laptop Rental Services",
+    subtitle: "Flexible and affordable rental solutions for offices, events, and individuals with full technical maintenance and backup services.",
     cta: "Contact Us",
     link: "/contact",
   },
@@ -132,13 +132,28 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
           const parsed = JSON.parse(h);
           const updated = parsed.map((s: any) => {
             if (s.id === "slide-1") {
-              return { ...s, image: "https://i.pinimg.com/1200x/3d/61/a2/3d61a2283e48219475b14cc6f33a103c.jpg" };
+              return {
+                ...s,
+                title: "Premium Laptops & Custom Desktops",
+                subtitle: "Explore top brands, custom assembled PCs, upgrades, and expert hardware support at unbeatable prices.",
+                image: "https://i.pinimg.com/1200x/3d/61/a2/3d61a2283e48219475b14cc6f33a103c.jpg"
+              };
             }
             if (s.id === "slide-2") {
-              return { ...s, image: "https://i.pinimg.com/736x/8a/d5/0c/8ad50cea21d4eff8cd04427965e0670d.jpg" };
+              return {
+                ...s,
+                title: "Professional CCTV Camera Installation",
+                subtitle: "Ensure absolute peace of mind with end-to-end security setup, DVR/NVR configuration, and 24/7 mobile viewing support.",
+                image: "https://i.pinimg.com/736x/8a/d5/0c/8ad50cea21d4eff8cd04427965e0670d.jpg"
+              };
             }
             if (s.id === "slide-3") {
-              return { ...s, title: "Rental Services", image: "https://i.pinimg.com/1200x/47/4c/f3/474cf3bad5cfe9dddfdb2318be6d8fe0.jpg" };
+              return {
+                ...s,
+                title: "Reliable IT & Laptop Rental Services",
+                subtitle: "Flexible and affordable rental solutions for offices, events, and individuals with full technical maintenance and backup services.",
+                image: "https://i.pinimg.com/1200x/47/4c/f3/474cf3bad5cfe9dddfdb2318be6d8fe0.jpg"
+              };
             }
             return s;
           });

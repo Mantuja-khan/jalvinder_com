@@ -30,18 +30,24 @@ function Services() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <FadeIn>
-        <section className="relative overflow-hidden bg-banner py-20 border-b border-border">
+        <section
+          className="relative overflow-hidden bg-cover bg-center py-20 border-b border-border"
+          style={{
+            backgroundImage: "url('https://i.pinimg.com/736x/25/48/ee/2548eec8ac03570b81f764ed4787149b.jpg')",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
           <div aria-hidden className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
           <div aria-hidden className="absolute -bottom-45 -left-45 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-          <div className="relative container mx-auto px-4 text-center max-w-3xl">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary uppercase tracking-wider">
+          <div className="relative z-10 container mx-auto px-4 text-center max-w-3xl text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/20 text-primary uppercase tracking-wider">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
               Expert Solutions
             </span>
-            <h1 className="text-4xl md:text-6xl font-black mt-4 tracking-tight leading-tight">
+            <h1 className="text-4xl md:text-6xl font-black mt-4 tracking-tight leading-tight text-white">
               Our Services
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground mt-4 max-w-xl mx-auto leading-relaxed">
+            <p className="text-gray-300 text-base md:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
               Premium IT sales, support, and security installation services custom-built for homes and corporate institutions.
             </p>
           </div>
@@ -54,7 +60,7 @@ function Services() {
           {SERVICES.map(({ Icon, t, s, bg }, i) => (
             <FadeIn key={t} delay={i * 60} direction="up">
               <div
-                className="relative overflow-hidden group border border-border/80 rounded-2xl p-8 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col h-full min-h-[280px]"
+                className="relative overflow-hidden group border border-border/80 rounded-none p-8 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col h-full min-h-[280px]"
                 style={{
                   backgroundImage: `url('${bg}')`,
                   backgroundSize: "cover",

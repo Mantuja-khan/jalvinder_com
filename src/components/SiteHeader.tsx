@@ -84,7 +84,6 @@ export function SiteHeader() {
             />
           </Link>
         </div>
-
         {/* Search Bar Container - 40% */}
         <div className="w-1/2 px-10 flex justify-center">
           <div ref={wrapperRef} className="hidden md:block w-full max-w-lg relative">

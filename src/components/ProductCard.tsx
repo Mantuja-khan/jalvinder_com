@@ -23,9 +23,9 @@ export function ProductCard({ p }: { p: Laptop }) {
     <Link
       to="/product/$id"
       params={{ id: p.id }}
-      className="group bg-card border border-border rounded-lg p-3 sm:p-4 flex flex-col hover:shadow-lg hover:border-primary/40 transition relative"
+      className="group border border-border rounded-none p-3 sm:p-4 flex flex-col hover:shadow-lg hover:border-primary/40 transition relative"
     >
-      <div className="aspect-square bg-secondary rounded-md flex items-center justify-center overflow-hidden">
+      <div className="aspect-square bg-white rounded-none flex items-center justify-center overflow-hidden">
         <img
           src={p.image}
           alt={p.name}

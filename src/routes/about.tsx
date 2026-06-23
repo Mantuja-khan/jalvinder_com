@@ -16,11 +16,17 @@ function About() {
   return (
     <div>
       <FadeIn>
-        <section className="bg-banner">
-          <div className="container mx-auto px-4 py-16 max-w-3xl text-center">
+        <section
+          className="relative overflow-hidden bg-cover bg-center py-16"
+          style={{
+            backgroundImage: "url('https://i.pinimg.com/736x/25/48/ee/2548eec8ac03570b81f764ed4787149b.jpg')",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
+          <div className="relative z-10 container mx-auto px-4 py-16 max-w-3xl text-center text-white">
             <p className="text-sm text-primary font-semibold uppercase tracking-wider">About Jalvindar Computer</p>
-            <h1 className="text-4xl md:text-5xl font-extrabold mt-3">Powering your work, play and creativity</h1>
-            <p className="text-muted-foreground mt-5">
+            <h1 className="text-4xl md:text-5xl font-extrabold mt-3 text-white">Powering your work, play and creativity</h1>
+            <p className="text-gray-300 mt-5">
               Since 2015 we've helped over a million people find the perfect laptop. We hand-pick every model
               to make sure you only see machines we'd happily recommend to a friend.
             </p>
