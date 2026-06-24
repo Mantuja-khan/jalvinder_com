@@ -4,8 +4,11 @@ import type { Laptop } from "@/data/laptops";
 import { formatINR } from "@/lib/format";
 
 const OWNER_WHATSAPP = "919352190208";
-
 export function ProductCard({ p }: { p: Laptop }) {
+  const discount =
+    p.oldPrice && p.oldPrice > p.price
+      ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)
+      : 0;
   const sendEnquiry = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -25,6 +28,11 @@ export function ProductCard({ p }: { p: Laptop }) {
       params={{ id: p.id }}
       className="group border border-border rounded-none p-3 sm:p-4 flex flex-col hover:shadow-lg hover:border-primary/40 transition relative"
     >
+      {discount > 0 && (
+        <span className="absolute top-2.5 right-2.5 text-xs font-bold text-green-600 z-10 pointer-events-none">
+          {discount}% Off
+        </span>
+      )}
       <div className="aspect-square bg-white rounded-none flex items-center justify-center overflow-hidden">
         <img
           src={p.image}
@@ -37,9 +45,9 @@ export function ProductCard({ p }: { p: Laptop }) {
         {p.name}
       </h3>
       <div className="flex items-baseline gap-2 mt-1.5">
-        <span className="text-primary font-bold">{formatINR(p.price)}</span>
+        <span className="text-green-600 font-bold">{formatINR(p.price)}</span>
         {p.oldPrice && (
-          <span className="text-xs text-muted-foreground line-through">
+          <span className="text-xs text-red-500 line-through">
             {formatINR(p.oldPrice)}
           </span>
         )}

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import type { Laptop } from "@/data/laptops";
 import { API_BASE } from "./AuthContext";
 import rentalServicesImg from "@/assets/rental-services.png";
+import rentalServicesHeroImg from "@/assets/rental-services-hero.png";
 
 export type FeaturedSlot = "hero" | "bestseller" | "bestTop" | "promo";
 
@@ -54,8 +55,8 @@ const DEFAULT_HERO_SLIDES: HeroSlide[] = [
   },
   {
     id: "slide-3",
-    image: "https://i.pinimg.com/1200x/47/4c/f3/474cf3bad5cfe9dddfdb2318be6d8fe0.jpg",
-    title: "Reliable IT & Laptop Rental Services",
+    image: rentalServicesHeroImg,
+    title: "BEST PLACE FOR SALES & SERVICES",
     subtitle: "Flexible and affordable rental solutions for offices, events, and individuals with full technical maintenance and backup services.",
     cta: "Contact Us",
     link: "/contact",
@@ -150,9 +151,9 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
             if (s.id === "slide-3") {
               return {
                 ...s,
-                title: "Reliable IT & Laptop Rental Services",
-                subtitle: "Flexible and affordable rental solutions for offices, events, and individuals with full technical maintenance and backup services.",
-                image: "https://i.pinimg.com/1200x/47/4c/f3/474cf3bad5cfe9dddfdb2318be6d8fe0.jpg"
+                title: "BEST PLACE FOR SALES & SERVICES",
+                subtitle: "Best place for sales & services for laptop , computer & accessories at affordable prices.",
+                image: rentalServicesHeroImg
               };
             }
             return s;
@@ -243,7 +244,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
       const err = await res.json();
       throw new Error(err.message || "Failed to delete product");
     }
-    
+
     setProducts((prev) => prev.filter((p) => p.id !== id));
     setFeatured((f) => ({
       hero: f.hero.filter((x) => x !== id),

@@ -176,10 +176,10 @@ function ProductPage() {
             )}
 
             <div className="mt-3 flex items-baseline gap-3 flex-wrap">
-              <span className="text-2xl sm:text-3xl font-bold">{formatINR(p.price)}</span>
+              <span className="text-2xl sm:text-3xl font-bold text-green-600">{formatINR(p.price)}</span>
               {p.oldPrice && (
                 <>
-                  <span className="text-sm text-muted-foreground line-through">{formatINR(p.oldPrice)}</span>
+                  <span className="text-sm text-red-500 line-through">{formatINR(p.oldPrice)}</span>
                   {discount > 0 && (
                     <span className="text-sm text-fk-green font-bold">{discount}% off</span>
                   )}

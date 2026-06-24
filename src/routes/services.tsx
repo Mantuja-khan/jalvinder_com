@@ -56,7 +56,7 @@ function Services() {
 
       {/* Services Grid */}
       <section className="container mx-auto px-4 py-16 md:py-24">
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {SERVICES.map(({ Icon, t, s, bg }, i) => (
             <FadeIn key={t} delay={i * 60} direction="up">
               <div
