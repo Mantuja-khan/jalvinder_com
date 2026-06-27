@@ -87,7 +87,7 @@ function Services() {
       </section>
 
       {/* Custom Quote CTA */}
-      <FadeIn>
+      {/* <FadeIn>
         <section className="container mx-auto px-4 pb-20">
           <div className="relative overflow-hidden bg-banner rounded-3xl p-8 sm:p-12 md:p-16 border border-border text-center max-w-5xl mx-auto">
             <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent pointer-events-none" />
@@ -105,7 +105,7 @@ function Services() {
             </div>
           </div>
         </section>
-      </FadeIn>
+      </FadeIn> */}
     </div>
   );
 }

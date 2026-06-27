@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { formatINR } from "@/lib/format";
-import { Trash2, Minus, Plus } from "lucide-react";
+import { Trash2, Minus, Plus, MessageCircle } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+
+const OWNER_WHATSAPP = "919352190208";
 
 export const Route = createFileRoute("/cart")({
   component: CartPage,
@@ -10,6 +12,22 @@ export const Route = createFileRoute("/cart")({
 
 function CartPage() {
   const { items, setQty, remove, subtotal } = useCart();
+
+  const sendEnquiry = () => {
+    const itemList = items
+      .map((it) => `• ${it.product.name} ×${it.qty} (${formatINR(it.product.price * it.qty)})`)
+      .join("\n");
+    const total = subtotal + (subtotal > 500 ? 0 : 25);
+    const msg =
+      `Hi, I'd like to enquire about the following products in my cart:\n\n` +
+      `${itemList}\n\n` +
+      `*Total Price: ${formatINR(total)}*\n\n` +
+      `Please share more details. Thank you!`;
+    window.open(
+      `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(msg)}`,
+      "_blank",
+    );
+  };
 
   if (items.length === 0) {
     return (
@@ -63,9 +81,12 @@ function CartPage() {
             <span>Total</span>
             <span className="text-primary">{formatINR((subtotal + (subtotal > 500 ? 0 : 25)))}</span>
           </div>
-          <Link to="/checkout" className="block text-center mt-6 bg-primary text-primary-foreground rounded-full py-3 font-semibold text-sm hover:bg-primary/90">
-            Proceed to Checkout
-          </Link>
+          <button
+            onClick={sendEnquiry}
+            className="w-full mt-6 inline-flex items-center justify-center gap-1.5 bg-[#25D366] text-white rounded-full py-3 text-sm font-semibold hover:opacity-90 transition"
+          >
+            <MessageCircle className="h-4 w-4" /> SEND ENQUIRY
+          </button>
         </aside>
       </div>
     </div>

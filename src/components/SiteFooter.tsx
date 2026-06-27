@@ -26,27 +26,23 @@ export function SiteFooter() {
         <div>
           <h4 className="font-semibold mb-4">Shop</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/shop">All Laptops</Link></li>
-            <li><Link to="/shop">Gaming</Link></li>
-            <li><Link to="/shop">Ultrabooks</Link></li>
-            <li><Link to="/shop">Business</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="font-semibold mb-4">Account</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/orders">My Orders</Link></li>
+            <li><Link to="/shop">All Products</Link></li>
+            <li><Link to="/services">Services</Link></li>
             <li><Link to="/cart">Cart</Link></li>
-            <li><Link to="/checkout">Checkout</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="font-semibold mb-4">Company</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/about">About Us</Link></li>
-            <li>Support 24/7</li>
-            <li>Returns & Warranty</li>
+            <li><Link to="/contact">Contact Us</Link></li>
           </ul>
+        </div>
+        <div>
+          <h4 className="font-semibold mb-4">Information</h4>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Visit our shop for custom setups, upgrade diagnostics, repairs, and high-security CCTV configurations.
+          </p>
         </div>
       </div>
       <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">

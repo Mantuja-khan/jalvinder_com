@@ -9,7 +9,6 @@ const items = [
   { to: "/about", label: "About", Icon: Info, exact: false },
   { to: "/cart", label: "Cart", Icon: ShoppingCart, exact: false },
 ] as const;
-
 export function MobileBottomNav() {
   const { count } = useCart();
   return (

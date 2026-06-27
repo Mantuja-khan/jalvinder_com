@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { useProducts } from "@/context/ProductsContext";
 import { ProductCard } from "@/components/ProductCard";
 import { FadeIn } from "@/components/FadeIn";
@@ -9,6 +9,8 @@ export const Route = createFileRoute("/shop")({
   validateSearch: (search: Record<string, unknown>) => {
     return {
       q: (search.q as string) || "",
+      category: (search.category as string) || "",
+      subcategory: (search.subcategory as string) || "",
     };
   },
   head: () => ({
@@ -21,11 +23,34 @@ export const Route = createFileRoute("/shop")({
 
 function Shop() {
   const { products, categories } = useProducts();
-  const { q } = Route.useSearch();
-  const [cat, setCat] = useState<string>("All");
-  const [sub, setSub] = useState<string>("All");
+  const navigate = useNavigate();
+  const { q, category, subcategory } = Route.useSearch();
+
+  const cat = category || "All";
+  const sub = subcategory || "All";
 
   const activeCat = categories.find((c) => c.name === cat);
+
+  const setCat = (newCat: string) => {
+    navigate({
+      to: "/shop",
+      search: (prev) => ({
+        ...prev,
+        category: newCat === "All" ? undefined : newCat,
+        subcategory: undefined,
+      }),
+    });
+  };
+
+  const setSub = (newSub: string) => {
+    navigate({
+      to: "/shop",
+      search: (prev) => ({
+        ...prev,
+        subcategory: newSub === "All" ? undefined : newSub,
+      }),
+    });
+  };
 
   const list = useMemo(() => {
     let out = products;

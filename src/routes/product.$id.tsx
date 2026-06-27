@@ -210,15 +210,6 @@ function ProductPage() {
 
             {/* Delivery / Seller / Warranty / Custom Features */}
             <div className="mt-5 grid grid-cols-[120px_1fr] gap-y-2 text-sm">
-              {p.deliveryDays != null && (
-                <>
-                  <span className="text-muted-foreground">Delivery</span>
-                  <span className="font-semibold">
-                    <Truck className="inline h-4 w-4 mr-1 text-primary" />
-                    In {p.deliveryDays}–{p.deliveryDays + 2} days
-                  </span>
-                </>
-              )}
               {p.seller && (
                 <>
                   <span className="text-muted-foreground">Seller</span>

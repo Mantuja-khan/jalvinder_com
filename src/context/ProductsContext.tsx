@@ -2,7 +2,8 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import type { Laptop } from "@/data/laptops";
 import { API_BASE } from "./AuthContext";
 import rentalServicesImg from "@/assets/rental-services.png";
-import rentalServicesHeroImg from "@/assets/rental-services-hero.png";
+import rentalServicesHeroImg from "@/assets/rental-services.png";
+import cctvInstallHeroImg from "@/assets/cctv-install-hero.png";
 
 export type FeaturedSlot = "hero" | "bestseller" | "bestTop" | "promo";
 
@@ -47,7 +48,7 @@ const DEFAULT_HERO_SLIDES: HeroSlide[] = [
   },
   {
     id: "slide-2",
-    image: "https://i.pinimg.com/736x/8a/d5/0c/8ad50cea21d4eff8cd04427965e0670d.jpg",
+    image: cctvInstallHeroImg,
     title: "Professional CCTV Camera Installation",
     subtitle: "Ensure absolute peace of mind with end-to-end security setup, DVR/NVR configuration, and 24/7 mobile viewing support.",
     cta: "Explore Services",
@@ -145,7 +146,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
                 ...s,
                 title: "Professional CCTV Camera Installation",
                 subtitle: "Ensure absolute peace of mind with end-to-end security setup, DVR/NVR configuration, and 24/7 mobile viewing support.",
-                image: "https://i.pinimg.com/736x/8a/d5/0c/8ad50cea21d4eff8cd04427965e0670d.jpg"
+                image: cctvInstallHeroImg
               };
             }
             if (s.id === "slide-3") {
@@ -175,14 +176,12 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem(HERO_KEY, JSON.stringify(heroSlides));
   }, [heroSlides]);
-
   const addHeroSlide: Ctx["addHeroSlide"] = (s) =>
     setHeroSlides((prev) => [...prev, { ...s, id: `slide-${Date.now()}` }]);
   const updateHeroSlide: Ctx["updateHeroSlide"] = (id, patch) =>
     setHeroSlides((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
   const removeHeroSlide: Ctx["removeHeroSlide"] = (id) =>
     setHeroSlides((prev) => prev.filter((s) => s.id !== id));
-
   const add = async (p: Omit<Laptop, "id" | "createdAt">) => {
     // Map category string to categoryId
     const catObj = categories.find(c => c.name.toLowerCase() === p.category.toLowerCase()) || categories[0];

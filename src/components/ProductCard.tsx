@@ -1,10 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Star } from "lucide-react";
 import type { Laptop } from "@/data/laptops";
 import { formatINR } from "@/lib/format";
+import { useReviews } from "@/context/ReviewsContext";
 
 const OWNER_WHATSAPP = "919352190208";
 export function ProductCard({ p }: { p: Laptop }) {
+  const { averageFor } = useReviews();
+  const { avg, count } = averageFor(p.id, p.rating);
+
   const discount =
     p.oldPrice && p.oldPrice > p.price
       ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)

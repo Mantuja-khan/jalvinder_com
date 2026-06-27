@@ -696,12 +696,105 @@ function Admin() {
                 <input type="number" step="0.1" min="0" max="5" value={draft.rating} onChange={(e) => setDraft({ ...draft, rating: Number(e.target.value) })} className={inputCls} />
               </Field>
             </div>
-            <Field label="Main Image URL">
-              <input value={draft.image} onChange={(e) => setDraft({ ...draft, image: e.target.value })} placeholder="https://..." className={inputCls} />
-            </Field>
-            <Field label="Gallery Images (one URL per line)">
-              <textarea rows={3} value={draft.imagesText} onChange={(e) => setDraft({ ...draft, imagesText: e.target.value })} placeholder="https://...\nhttps://..." className={inputCls} />
-            </Field>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Field label="Main Image URL">
+                <input value={draft.image} onChange={(e) => setDraft({ ...draft, image: e.target.value })} placeholder="https://..." className={inputCls} />
+              </Field>
+              <Field label="Or Upload Image from System">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setDraft({ ...draft, image: reader.result as string });
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className={`${inputCls} file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 file:cursor-pointer`}
+                />
+              </Field>
+            </div>
+            {draft.image && (
+              <div className="mt-2 border border-border rounded-lg p-2 flex items-center gap-3 bg-muted/20">
+                <img src={draft.image} alt="Preview" className="w-16 h-16 object-contain bg-secondary rounded" />
+                <div className="text-xs">
+                  <p className="font-semibold text-muted-foreground">Image Preview</p>
+                  <button
+                    type="button"
+                    onClick={() => setDraft({ ...draft, image: "" })}
+                    className="text-destructive hover:underline mt-1"
+                  >
+                    Clear Image
+                  </button>
+                </div>
+              </div>
+            )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Field label="Gallery Images (one URL per line)">
+                <textarea rows={3} value={draft.imagesText} onChange={(e) => setDraft({ ...draft, imagesText: e.target.value })} placeholder="https://...\nhttps://..." className={inputCls} />
+              </Field>
+              <Field label="Or Upload Gallery Images (Select Multiple)">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    if (files.length > 0) {
+                      const promises = files.map((file) => {
+                        return new Promise<string>((resolve) => {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            resolve(reader.result as string);
+                          };
+                          reader.readAsDataURL(file);
+                        });
+                      });
+                      Promise.all(promises).then((results) => {
+                        const existing = draft.imagesText ? draft.imagesText.split("\n").filter(Boolean) : [];
+                        const updated = [...existing, ...results].join("\n");
+                        setDraft({ ...draft, imagesText: updated });
+                      });
+                    }
+                  }}
+                  className={`${inputCls} file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 file:cursor-pointer`}
+                />
+              </Field>
+            </div>
+            
+            {draft.imagesText ? (
+              (() => {
+                const galleryImages = draft.imagesText.split("\n").filter(Boolean);
+                if (galleryImages.length === 0) return null;
+                return (
+                  <div className="mt-2">
+                    <p className="text-xs font-semibold text-muted-foreground mb-1.5">Gallery Previews ({galleryImages.length})</p>
+                    <div className="flex flex-wrap gap-2">
+                      {galleryImages.map((img, i) => (
+                        <div key={i} className="relative group w-16 h-16 border border-border rounded bg-secondary p-1 flex items-center justify-center">
+                          <img src={img} alt="" className="max-w-full max-h-full object-contain text-[9px] text-muted-foreground" />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updatedList = galleryImages.filter((_, idx) => idx !== i);
+                              setDraft({ ...draft, imagesText: updatedList.join("\n") });
+                            }}
+                            className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white rounded transition-opacity"
+                            aria-label="Remove image"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()
+            ) : null}
             <Field label="Badge (e.g. NEW, -20%)">
               <input value={draft.badge ?? ""} onChange={(e) => setDraft({ ...draft, badge: e.target.value })} className={inputCls} />
             </Field>

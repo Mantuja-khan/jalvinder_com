@@ -40,7 +40,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
 
 export function SiteHeader() {
   const { count } = useCart();
-  const { products } = useProducts();
+  const { products, categories } = useProducts();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -181,17 +181,76 @@ export function SiteHeader() {
         {/* Buttons / Navigation / Auth Container - 40% */}
         <div className="w-2/5 flex items-center justify-end gap-6">
           <nav className="hidden lg:flex items-center gap-5 text-sm font-medium">
-            {nav.map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                activeOptions={{ exact: n.to === "/" }}
-                activeProps={{ className: "text-primary" }}
-                className="hover:text-primary transition-colors"
-              >
-                {n.label}
-              </Link>
-            ))}
+            {nav.map((n) => {
+              if (n.label === "Shop") {
+                return (
+                  <div key={n.to} className="relative group py-2">
+                    <Link
+                      to={n.to}
+                      activeProps={{ className: "text-primary" }}
+                      className="hover:text-primary transition-colors flex items-center gap-0.5"
+                    >
+                      {n.label}
+                      <span className="text-[8px] opacity-60 transition-transform group-hover:rotate-180">▼</span>
+                    </Link>
+                    {/* Dropdown Menu */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-64 bg-popover/95 backdrop-blur border border-border rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                      <div className="p-2 space-y-1">
+                        <Link
+                          to="/shop"
+                          search={{ category: "" }}
+                          className="block px-3 py-2 rounded-lg text-xs font-semibold hover:bg-accent/50 text-foreground"
+                        >
+                          All Categories
+                        </Link>
+                        {categories.map((c) => (
+                          <div key={c.id} className="relative group/sub">
+                            <Link
+                              to="/shop"
+                              search={{ category: c.name }}
+                              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium hover:bg-accent/50 text-foreground text-left"
+                            >
+                              <span>{c.name}</span>
+                              {c.subcategories.length > 0 && (
+                                <span className="text-[8px] opacity-60">▶</span>
+                              )}
+                            </Link>
+                            {/* Subcategories Dropdown */}
+                            {c.subcategories.length > 0 && (
+                              <div className="absolute left-full top-0 ml-1 w-56 bg-popover/95 backdrop-blur border border-border rounded-xl shadow-lg opacity-0 pointer-events-none group-hover/sub:opacity-100 group-hover/sub:pointer-events-auto transition-all duration-200">
+                                <div className="p-2 space-y-1">
+                                  {c.subcategories.map((s) => (
+                                    <Link
+                                      key={s.id}
+                                      to="/shop"
+                                      search={{ category: c.name, subcategory: s.name }}
+                                      className="block px-3 py-1.5 rounded-lg text-[11px] hover:bg-accent/50 text-muted-foreground hover:text-foreground"
+                                    >
+                                      {s.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  activeOptions={{ exact: n.to === "/" }}
+                  activeProps={{ className: "text-primary" }}
+                  className="hover:text-primary transition-colors"
+                >
+                  {n.label}
+                </Link>
+              );
+            })}
           </nav>
           <div className="flex items-center gap-3">
             <AuthMenu />
