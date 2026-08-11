@@ -86,25 +86,7 @@ function About() {
         </section>
       </FadeIn>
 
-      <FadeIn>
-        <section className="container mx-auto px-4 pb-20">
-          <div className="bg-banner rounded-xl p-10 grid md:grid-cols-4 gap-6 text-center">
-            {[
-              { n: "10+", l: "Years in business" },
-              { n: "1M+", l: "Happy customers" },
-              { n: "70+", l: "Countries served" },
-              { n: "4.8/5", l: "Average review" },
-            ].map((s, i) => (
-              <FadeIn key={s.l} delay={i * 100} direction="up">
-                <div>
-                  <p className="text-4xl font-extrabold text-primary">{s.n}</p>
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground mt-2">{s.l}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </section>
-      </FadeIn>
+
     </div>
   );
 }

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="screenGrad" x1="8" y1="8" x2="56" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0284c7" />
+      <stop offset="1" stop-color="#0f172a" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#0f172a" />
+  <rect x="2" y="2" width="60" height="60" rx="14" stroke="#334155" stroke-width="2" />
+  <!-- Laptop Screen -->
+  <rect x="13" y="11" width="38" height="25" rx="3" fill="url(#screenGrad)" stroke="#38bdf8" stroke-width="1.5" />
+  <!-- Brand monogram inside screen -->
+  <text x="32" y="28" font-family="system-ui, sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" letter-spacing="0.5">JC</text>
+  <!-- Laptop Base -->
+  <path d="M7 40C7 38.8954 7.89543 38 9 38H55C56.1046 38 57 38.8954 57 40V42C57 44.2091 55.2091 46 53 46H11C8.79086 46 7 44.2091 7 42V40Z" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+  <!-- Laptop Notch -->
+  <path d="M26 38H38V40C38 40.5523 37.5523 41 37 41H27C26.4477 41 26 40.5523 26 40V38Z" fill="#38bdf8" />
+</svg>
