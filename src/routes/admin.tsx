@@ -25,6 +25,7 @@ import {
   CheckCircle2,
   FolderTree,
   Image as ImageIcon,
+  Upload,
 } from "lucide-react";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
@@ -1097,6 +1098,47 @@ function CategoriesPanel({
   );
 }
 
+function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Failed to read file"));
+    reader.onload = () => {
+      const result = reader.result as string;
+      const img = new Image();
+      img.onload = () => {
+        const maxWidth = 1920;
+        const maxHeight = 1080;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth || height > maxHeight) {
+          if (width / height > maxWidth / maxHeight) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(result);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.85));
+      };
+      img.onerror = () => resolve(result);
+      img.src = result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 function SlidesPanel({
   slides,
   addHeroSlide,
@@ -1109,11 +1151,29 @@ function SlidesPanel({
   removeHeroSlide: (id: string) => void;
 }) {
   const [draft, setDraft] = useState({ image: "", title: "", subtitle: "", cta: "Shop Now", link: "/shop" });
+  const [uploading, setUploading] = useState(false);
+
+  const handleDeviceUpload = async (file: File) => {
+    setUploading(true);
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setDraft((prev) => ({ ...prev, image: dataUrl }));
+      toast.success("Image selected from device");
+    } catch {
+      toast.error("Failed to process image file");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!draft.image || !draft.title) {
-      toast.error("Image and title are required");
+    if (!draft.image.trim()) {
+      toast.error("Please provide an image URL or choose an image from your device");
+      return;
+    }
+    if (!draft.title.trim()) {
+      toast.error("Title is required");
       return;
     }
     addHeroSlide(draft);
@@ -1123,11 +1183,58 @@ function SlidesPanel({
 
   return (
     <div className="mt-5 sm:mt-7 space-y-5">
-      <form onSubmit={submit} className="border border-border rounded-xl p-4 sm:p-5 space-y-3 bg-card">
+      <form onSubmit={submit} className="border border-border rounded-xl p-4 sm:p-5 space-y-4 bg-card">
         <h3 className="font-bold text-sm sm:text-base">Add New Slide</h3>
-        <Field label="Image URL">
-          <input required value={draft.image} onChange={(e) => setDraft({ ...draft, image: e.target.value })} placeholder="https://..." className={inputCls} />
-        </Field>
+
+        <div className="space-y-3">
+          <Field label="Image URL">
+            <input
+              value={draft.image}
+              onChange={(e) => setDraft({ ...draft, image: e.target.value })}
+              placeholder="https://... or choose from device below"
+              className={inputCls}
+            />
+          </Field>
+
+          <Field label="Or Choose Image from Device">
+            <div className="flex items-center gap-3">
+              <label className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-secondary hover:bg-accent text-xs font-semibold cursor-pointer transition-colors text-foreground">
+                <Upload className="h-4 w-4" />
+                {uploading ? "Processing..." : "Select from Device"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  disabled={uploading}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleDeviceUpload(file);
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+              {draft.image && (
+                <button
+                  type="button"
+                  onClick={() => setDraft({ ...draft, image: "" })}
+                  className="text-xs text-destructive hover:underline inline-flex items-center gap-1"
+                >
+                  <X className="h-3.5 w-3.5" /> Remove Image
+                </button>
+              )}
+            </div>
+          </Field>
+
+          {draft.image && (
+            <div className="relative rounded-lg overflow-hidden border border-border w-full max-w-sm h-36 bg-secondary/30 mt-2">
+              <img src={draft.image} alt="Slide Preview" className="w-full h-full object-cover" />
+              <div className="absolute bottom-1 right-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded font-mono">
+                Preview
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Field label="Title">
             <input required value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} className={inputCls} />
@@ -1144,26 +1251,54 @@ function SlidesPanel({
             <input value={draft.link} onChange={(e) => setDraft({ ...draft, link: e.target.value })} className={inputCls} />
           </Field>
         </div>
-        <button type="submit" className="inline-flex items-center gap-2 bg-primary text-primary-foreground rounded-full px-4 py-2 text-sm font-semibold">
+        <button type="submit" className="inline-flex items-center gap-2 bg-primary text-primary-foreground rounded-full px-4 py-2 text-sm font-semibold hover:opacity-95 transition-opacity">
           <Plus className="h-4 w-4" /> Add Slide
         </button>
       </form>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {slides.map((s) => (
-          <div key={s.id} className="border border-border rounded-xl overflow-hidden bg-card">
-            <img src={s.image} alt={s.title} className="w-full h-32 object-cover" />
+          <div key={s.id} className="border border-border rounded-xl overflow-hidden bg-card flex flex-col justify-between">
+            <div className="relative group/img overflow-hidden">
+              <img src={s.image} alt={s.title} className="w-full h-36 object-cover" />
+              <label className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex flex-col items-center justify-center text-white cursor-pointer text-xs font-semibold gap-1.5 p-2 text-center">
+                <Upload className="h-5 w-5" />
+                <span>Replace from Device</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      try {
+                        const dataUrl = await readFileAsDataUrl(file);
+                        updateHeroSlide(s.id, { image: dataUrl });
+                        toast.success("Slide image updated from device");
+                      } catch {
+                        toast.error("Failed to update image");
+                      }
+                    }
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+            </div>
             <div className="p-3 space-y-2">
-              <input
-                value={s.title}
-                onChange={(e) => updateHeroSlide(s.id, { title: e.target.value })}
-                className={inputCls}
-              />
-              <input
-                value={s.subtitle}
-                onChange={(e) => updateHeroSlide(s.id, { subtitle: e.target.value })}
-                className={inputCls}
-              />
+              <Field label="Title">
+                <input
+                  value={s.title}
+                  onChange={(e) => updateHeroSlide(s.id, { title: e.target.value })}
+                  className={inputCls}
+                />
+              </Field>
+              <Field label="Subtitle">
+                <input
+                  value={s.subtitle}
+                  onChange={(e) => updateHeroSlide(s.id, { subtitle: e.target.value })}
+                  className={inputCls}
+                />
+              </Field>
               <div className="grid grid-cols-2 gap-2">
                 <input
                   value={s.cta}
@@ -1178,12 +1313,38 @@ function SlidesPanel({
                   placeholder="Link"
                 />
               </div>
-              <input
-                value={s.image}
-                onChange={(e) => updateHeroSlide(s.id, { image: e.target.value })}
-                className={inputCls}
-                placeholder="Image URL"
-              />
+              <Field label="Image URL">
+                <input
+                  value={s.image}
+                  onChange={(e) => updateHeroSlide(s.id, { image: e.target.value })}
+                  className={inputCls}
+                  placeholder="Image URL"
+                />
+              </Field>
+
+              <label className="w-full inline-flex items-center justify-center gap-1.5 text-xs px-2.5 py-1.5 rounded border border-border bg-secondary hover:bg-accent cursor-pointer font-medium text-foreground transition-colors">
+                <Upload className="h-3.5 w-3.5" />
+                Choose New Image from Device
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      try {
+                        const dataUrl = await readFileAsDataUrl(file);
+                        updateHeroSlide(s.id, { image: dataUrl });
+                        toast.success("Slide image updated from device");
+                      } catch {
+                        toast.error("Failed to update image");
+                      }
+                    }
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+
               <button
                 onClick={() => {
                   if (confirm("Delete this slide?")) {
@@ -1191,7 +1352,7 @@ function SlidesPanel({
                     toast.success("Slide removed");
                   }
                 }}
-                className="w-full inline-flex items-center justify-center gap-1.5 text-xs px-2 py-1.5 rounded border border-border text-destructive hover:bg-destructive/10"
+                className="w-full inline-flex items-center justify-center gap-1.5 text-xs px-2 py-1.5 rounded border border-border text-destructive hover:bg-destructive/10 transition-colors"
               >
                 <Trash2 className="h-3.5 w-3.5" /> Delete Slide
               </button>

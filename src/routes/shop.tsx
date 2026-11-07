@@ -4,13 +4,19 @@ import { useProducts } from "@/context/ProductsContext";
 import { ProductCard } from "@/components/ProductCard";
 import { FadeIn } from "@/components/FadeIn";
 
+type ShopSearch = {
+  q?: string;
+  category?: string;
+  subcategory?: string;
+};
+
 export const Route = createFileRoute("/shop")({
   component: Shop,
-  validateSearch: (search: Record<string, unknown>) => {
+  validateSearch: (search: Record<string, unknown>): ShopSearch => {
     return {
-      q: (search.q as string) || "",
-      category: (search.category as string) || "",
-      subcategory: (search.subcategory as string) || "",
+      q: typeof search.q === "string" && search.q ? search.q : undefined,
+      category: typeof search.category === "string" && search.category ? search.category : undefined,
+      subcategory: typeof search.subcategory === "string" && search.subcategory ? search.subcategory : undefined,
     };
   },
   head: () => ({

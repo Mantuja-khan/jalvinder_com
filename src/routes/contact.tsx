@@ -64,8 +64,8 @@ function Contact() {
                     <Icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold">{t}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{s}</p>
+                    <h3 className="font-semibold text-slate-950 dark:text-white">{t}</h3>
+                    <p className="text-sm text-slate-800 dark:text-slate-200 mt-1 font-medium">{s}</p>
                   </div>
                 </div>
               </FadeIn>

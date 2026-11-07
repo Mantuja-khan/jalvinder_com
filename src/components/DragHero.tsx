@@ -51,7 +51,7 @@ export function DragHero() {
   const dragPct = widthRef.current ? (dragX / widthRef.current) * 100 : 0;
 
   return (
-    <section className="bg-card border-b border-border">
+    <section className="bg-card border-b border-border -mt-20">
       <div className="relative overflow-hidden select-none" ref={trackRef}>
         <div
           className="flex touch-pan-y cursor-grab active:cursor-grabbing"
@@ -66,15 +66,15 @@ export function DragHero() {
         >
           {slides.map((s) => (
             <div key={s.id} className="w-full shrink-0 relative">
-              <div className="relative h-72 sm:h-[28rem] md:h-[34rem] lg:h-[600px] overflow-hidden">
+              <div className="relative h-80 sm:h-[30rem] md:h-[36rem] lg:h-[640px] overflow-hidden">
                 <img
                   src={s.image}
                   alt={s.title}
                   draggable={false}
                   className="w-full h-full object-cover pointer-events-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-                <div className="absolute inset-0 flex items-center">
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20" />
+                <div className="absolute inset-0 flex items-center pt-20 sm:pt-24">
                   <div className="container mx-auto px-4 sm:px-6">
                     <div className="max-w-lg text-white">
                       <h2 className="text-2xl sm:text-4xl md:text-5xl font-black leading-tight bg-gradient-to-r from-yellow-300 via-pink-400 to-cyan-300 bg-clip-text text-transparent pb-1">

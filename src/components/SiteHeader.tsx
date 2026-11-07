@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { ShoppingCart, Search, X, LogOut } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "@/context/CartContext";
@@ -45,6 +45,20 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const routerState = useRouterState();
+  const isHomePage = routerState.location.pathname === "/";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const isAtHero = isHomePage && !scrolled;
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -71,22 +85,27 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-background/95 backdrop-blur border-b border-border">
-
-      <div className="container mx-auto px-2 h-20 flex items-center justify-between w-auto">
-        {/* Logo Container - 20% */}
-        <div className="w-1/5 flex items-center justify-start shrink-0">
+    <header
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        isAtHero
+          ? "bg-transparent border-b border-transparent shadow-none"
+          : "bg-background/95 backdrop-blur border-b border-border shadow-sm"
+      }`}
+    >
+      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+        {/* Logo Container with reserved width for scale-250 */}
+        <div className="flex items-center justify-start shrink-0 w-44 sm:w-52 md:w-60 lg:w-64 mr-2 sm:mr-4">
           <Link to="/" className="flex items-center shrink-0">
             <img
               src={logo}
               alt="Jalvinder Computer Technology"
-              className="h-20 w-auto object-contain scale-250 origin-left"
+              className="h-20 w-auto object-contain scale-250 origin-left drop-shadow-sm"
             />
           </Link>
         </div>
-        {/* Search Bar Container - 40% */}
-        <div className="w-1/2 px-10 flex justify-center">
-          <div ref={wrapperRef} className="hidden md:block w-full max-w-lg relative">
+        {/* Decreased compact search bar - does not cover logo */}
+        <div className="hidden md:flex justify-center flex-1 max-w-[260px] lg:max-w-xs px-2">
+          <div ref={wrapperRef} className="w-full relative">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -95,10 +114,14 @@ export function SiteHeader() {
                   navigate({ to: "/shop", search: { q: query.trim() } });
                 }
               }}
-              className="flex items-center gap-2 border border-border rounded-full px-4 py-2 w-full"
+              className={`flex items-center gap-2 border rounded-full px-3 py-1.5 w-full transition-colors ${
+                isAtHero
+                  ? "bg-background/85 backdrop-blur-md border-border/80 text-foreground shadow-sm"
+                  : "bg-transparent border-border text-foreground"
+              }`}
             >
               <button type="submit" className="text-muted-foreground hover:text-primary transition-colors">
-                <Search className="h-4 w-4" />
+                <Search className="h-3.5 w-3.5" />
               </button>
               <input
                 value={query}
@@ -107,8 +130,8 @@ export function SiteHeader() {
                   setOpen(true);
                 }}
                 onFocus={() => setOpen(true)}
-                placeholder="Search laptops, brands, specs..."
-                className="bg-transparent outline-none text-sm flex-1 w-full"
+                placeholder="Search laptops, specs..."
+                className="bg-transparent outline-none text-xs flex-1 w-full"
               />
               {query && (
                 <button
@@ -178,20 +201,24 @@ export function SiteHeader() {
           </div>
         </div>
 
-        {/* Buttons / Navigation / Auth Container - 40% */}
-        <div className="w-2/5 flex items-center justify-end gap-6">
+        {/* Buttons / Navigation / Auth Container */}
+        <div className="flex items-center justify-end gap-4 lg:gap-6 shrink-0">
           <nav className="hidden lg:flex items-center gap-5 text-sm font-medium">
             {nav.map((n) => {
+              const navLinkCls = isAtHero
+                ? "text-white/95 hover:text-white drop-shadow-sm font-semibold transition-colors"
+                : "text-foreground hover:text-primary transition-colors font-medium";
+
               if (n.label === "Shop") {
                 return (
                   <div key={n.to} className="relative group py-2">
                     <Link
                       to={n.to}
                       activeProps={{ className: "text-primary" }}
-                      className="hover:text-primary transition-colors flex items-center gap-0.5"
+                      className={`flex items-center gap-0.5 ${navLinkCls}`}
                     >
                       {n.label}
-                      <span className="text-[8px] opacity-60 transition-transform group-hover:rotate-180">▼</span>
+                      <span className="text-[8px] opacity-70 transition-transform group-hover:rotate-180">▼</span>
                     </Link>
                     {/* Dropdown Menu */}
                     <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-64 bg-popover/95 backdrop-blur border border-border rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
@@ -245,7 +272,7 @@ export function SiteHeader() {
                   to={n.to}
                   activeOptions={{ exact: n.to === "/" }}
                   activeProps={{ className: "text-primary" }}
-                  className="hover:text-primary transition-colors"
+                  className={navLinkCls}
                 >
                   {n.label}
                 </Link>
@@ -253,8 +280,13 @@ export function SiteHeader() {
             })}
           </nav>
           <div className="flex items-center gap-3">
-            <AuthMenu />
-            <Link to="/cart" className="relative text-foreground/70 hover:text-primary">
+            <AuthMenu isAtHero={isAtHero} />
+            <Link
+              to="/cart"
+              className={`relative transition-colors ${
+                isAtHero ? "text-white hover:text-white/80 drop-shadow-sm" : "text-foreground/70 hover:text-primary"
+              }`}
+            >
               <ShoppingCart className="h-6 w-6" />
               {count > 0 && (
                 <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
@@ -269,7 +301,7 @@ export function SiteHeader() {
   );
 }
 
-function AuthMenu() {
+function AuthMenu({ isAtHero }: { isAtHero?: boolean }) {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -298,7 +330,11 @@ function AuthMenu() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 text-xs font-semibold rounded-full bg-secondary border border-border pl-1 pr-3 py-1 hover:border-primary"
+        className={`flex items-center gap-2 text-xs font-semibold rounded-full border pl-1 pr-3 py-1 transition-colors ${
+          isAtHero
+            ? "bg-black/40 text-white border-white/20 hover:border-white/50 backdrop-blur-sm"
+            : "bg-secondary border-border text-foreground hover:border-primary"
+        }`}
       >
         <span className="bg-primary text-primary-foreground rounded-full h-7 w-7 flex items-center justify-center text-[11px] font-bold">
           {initials}
