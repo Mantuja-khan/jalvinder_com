@@ -363,68 +363,31 @@ function About() {
                     <Gem className="h-8 w-8 sm:h-9 sm:w-9 text-white stroke-[2.2]" />
                   </div>
                 </div>
-              </div>
+              </FadeIn>
+            ))}
+          </div>
+        </section>
+      </FadeIn>
 
-              {/* Card Body with Dark High-Contrast Text */}
-              <div className="p-6 sm:p-8 pt-4 flex-1 flex flex-col justify-between text-center">
+      <FadeIn>
+        <section className="container mx-auto px-4 pb-20">
+          <div className="bg-banner rounded-xl p-10 grid md:grid-cols-4 gap-6 text-center">
+            {[
+              { n: "10+", l: "Years in business" },
+              { n: "1M+", l: "Happy customers" },
+              { n: "70+", l: "Countries served" },
+              { n: "4.8/5", l: "Average review" },
+            ].map((s, i) => (
+              <FadeIn key={s.l} delay={i * 100} direction="up">
                 <div>
-                  <h4 className="font-bold text-lg text-slate-950 dark:text-white">Uncompromising integrity</h4>
-                  <p className="text-slate-800 dark:text-slate-200 text-sm sm:text-base leading-relaxed mt-3 font-normal">
-                    We treat every machine as if it were our own. No unnecessary replacements, no inflated quotes —
-                    only honest advice, original warranty parts, and dependable post-installation support.
-                  </p>
+                  <p className="text-4xl font-extrabold text-primary">{s.n}</p>
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground mt-2">{s.l}</p>
                 </div>
-
-                <div className="mt-6 pt-5 border-t border-border space-y-2 text-xs sm:text-sm text-left">
-                  <div className="flex items-start gap-2 text-slate-800 dark:text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>100% genuine, sealed manufacturer components</span>
-                  </div>
-                  <div className="flex items-start gap-2 text-slate-800 dark:text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>Customer-first warranty & emergency support</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </FadeIn>
+            ))}
           </div>
-        </div>
-      </section>
-
-      {/* Trust Badges Bar */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <div className="p-6 rounded-xl border border-border bg-card flex items-start gap-4 shadow-sm">
-            <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0">
-              <Award className="h-6 w-6" />
-            </div>
-            <div>
-              <h4 className="font-bold text-base text-slate-950 dark:text-white uppercase tracking-wider">AUTHORISED PRODUCTS</h4>
-              <p className="text-sm text-slate-800 dark:text-slate-200 mt-1">Direct from official distributors with full manufacturer warranty.</p>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-xl border border-border bg-card flex items-start gap-4 shadow-sm">
-            <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0">
-              <Clock className="h-6 w-6" />
-            </div>
-            <div>
-              <h4 className="font-bold text-base text-slate-950 dark:text-white uppercase tracking-wider">QUICK TURNAROUND</h4>
-              <p className="text-sm text-slate-800 dark:text-slate-200 mt-1">Same-day diagnostics and fast repair for laptops and PCs.</p>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-xl border border-border bg-card flex items-start gap-4 shadow-sm">
-            <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0">
-              <ShieldCheck className="h-6 w-6" />
-            </div>
-            <div>
-              <h4 className="font-bold text-base text-slate-950 dark:text-white uppercase tracking-wider">GUARANTEED WORKMANSHIP</h4>
-              <p className="text-sm text-slate-800 dark:text-slate-200 mt-1">Certified technicians with rigorous quality testing standards.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      </FadeIn>
     </div>
   );
 }
