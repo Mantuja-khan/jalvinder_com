@@ -29,7 +29,7 @@ function HexCard({ image, label, tag, className = "" }: HexCardProps) {
     <div className={`relative group p-1 transition-all duration-300 hover:scale-105 hover:z-30 ${className}`}>
       {/* Outer border hexagon */}
       <div
-        className="w-28 h-32 sm:w-36 sm:h-40 p-[3px] bg-gradient-to-b from-primary/80 via-blue-400 to-primary/40 shadow-xl"
+        className="w-24 h-28 sm:w-32 sm:h-36 md:w-36 md:h-40 p-[3px] bg-gradient-to-b from-primary/80 via-blue-400 to-primary/40 shadow-xl"
         style={{ clipPath: hexPolygon }}
       >
         {/* Inner image hexagon */}
@@ -99,7 +99,7 @@ function About() {
             {/* Honeycomb Interlocking Hexagons */}
             <div className="w-full max-w-lg mx-auto select-none">
               {/* Row 1: Laptop & Printer */}
-              <div className="flex justify-center gap-4 sm:gap-6 -mb-6 sm:-mb-10">
+              <div className="flex justify-center gap-2.5 sm:gap-4 md:gap-6 -mb-5 sm:-mb-8 md:-mb-10">
                 <HexCard
                   image={laptopImg}
                   label="Laptops"
@@ -111,8 +111,9 @@ function About() {
                   tag=".02"
                 />
               </div>
+
               {/* Row 2: Desktops, Center Core Hexagon, CCTV */}
-              <div className="flex justify-center items-center gap-4 sm:gap-6 -mb-6 sm:-mb-10 z-10 relative">
+              <div className="flex justify-center items-center gap-2.5 sm:gap-4 md:gap-6 -mb-5 sm:-mb-8 md:-mb-10 z-10 relative">
                 <HexCard
                   image="https://i.pinimg.com/1200x/b0/12/f5/b012f5a8c77d06c37aabd96d81d2c97e.jpg"
                   label="Custom Desktops"
@@ -122,19 +123,19 @@ function About() {
                 {/* Center Core Brand Hexagon */}
                 <div className="relative group p-1 transition-all duration-300 hover:scale-105 z-20">
                   <div
-                    className="w-28 h-32 sm:w-36 sm:h-40 p-[3px] bg-gradient-to-br from-primary via-blue-500 to-indigo-600 shadow-2xl"
+                    className="w-24 h-28 sm:w-32 sm:h-36 md:w-36 md:h-40 p-[3px] bg-gradient-to-br from-primary via-blue-500 to-indigo-600 shadow-2xl"
                     style={{ clipPath: hexPolygon }}
                   >
                     <div
-                      className="w-full h-full bg-slate-950 text-white flex flex-col items-center justify-center p-2.5 sm:p-3 text-center"
+                      className="w-full h-full bg-slate-950 text-white flex flex-col items-center justify-center p-2 sm:p-3 text-center"
                       style={{ clipPath: hexPolygon }}
                     >
                       <span className="text-[8px] sm:text-[9px] font-medium text-primary">Est. 2015</span>
-                      <h4 className="text-[11px] sm:text-xs font-black uppercase tracking-tight mt-1 text-white leading-tight">
+                      <h4 className="text-[10px] sm:text-xs font-black uppercase tracking-tight mt-1 text-white leading-tight">
                         JALVINDAR
                       </h4>
                       <p className="text-[8px] sm:text-[9px] text-slate-300 font-normal mt-0.5">Computer tech</p>
-                      <div className="mt-1 h-0.5 w-6 bg-primary rounded-full" />
+                      <div className="mt-1 h-0.5 w-5 sm:w-6 bg-primary rounded-full" />
                     </div>
                   </div>
                   <span className="absolute -top-1 -right-1 bg-amber-500 text-slate-950 text-[9px] font-black rounded-full h-5 w-5 sm:h-6 sm:w-6 flex items-center justify-center border-2 border-background shadow-md">
@@ -150,7 +151,7 @@ function About() {
               </div>
 
               {/* Row 3: Repairs & Networking */}
-              <div className="flex justify-center gap-4 sm:gap-6">
+              <div className="flex justify-center gap-2.5 sm:gap-4 md:gap-6">
                 <HexCard
                   image="https://i.pinimg.com/736x/6b/96/70/6b9670b726e2b55a6a57391391558187.jpg"
                   label="Repairs & AMC"
@@ -363,31 +364,68 @@ function About() {
                     <Gem className="h-8 w-8 sm:h-9 sm:w-9 text-white stroke-[2.2]" />
                   </div>
                 </div>
-              </FadeIn>
-            ))}
-          </div>
-        </section>
-      </FadeIn>
+              </div>
 
-      <FadeIn>
-        <section className="container mx-auto px-4 pb-20">
-          <div className="bg-banner rounded-xl p-10 grid md:grid-cols-4 gap-6 text-center">
-            {[
-              { n: "10+", l: "Years in business" },
-              { n: "1M+", l: "Happy customers" },
-              { n: "70+", l: "Countries served" },
-              { n: "4.8/5", l: "Average review" },
-            ].map((s, i) => (
-              <FadeIn key={s.l} delay={i * 100} direction="up">
+              {/* Card Body with Dark High-Contrast Text */}
+              <div className="p-6 sm:p-8 pt-4 flex-1 flex flex-col justify-between text-center">
                 <div>
-                  <p className="text-4xl font-extrabold text-primary">{s.n}</p>
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground mt-2">{s.l}</p>
+                  <h4 className="font-bold text-lg text-slate-950 dark:text-white">Uncompromising integrity</h4>
+                  <p className="text-slate-800 dark:text-slate-200 text-sm sm:text-base leading-relaxed mt-3 font-normal">
+                    We treat every machine as if it were our own. No unnecessary replacements, no inflated quotes —
+                    only honest advice, original warranty parts, and dependable post-installation support.
+                  </p>
                 </div>
-              </FadeIn>
-            ))}
+
+                <div className="mt-6 pt-5 border-t border-border space-y-2 text-xs sm:text-sm text-left">
+                  <div className="flex items-start gap-2 text-slate-800 dark:text-slate-200">
+                    <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+                    <span>100% genuine, sealed manufacturer components</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-800 dark:text-slate-200">
+                    <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+                    <span>Customer-first warranty & emergency support</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
-      </FadeIn>
+        </div>
+      </section>
+
+      {/* Trust Badges Bar */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="p-6 rounded-xl border border-border bg-card flex items-start gap-4 shadow-sm">
+            <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0">
+              <Award className="h-6 w-6" />
+            </div>
+            <div>
+              <h4 className="font-bold text-base text-slate-950 dark:text-white uppercase tracking-wider">AUTHORISED PRODUCTS</h4>
+              <p className="text-sm text-slate-800 dark:text-slate-200 mt-1">Direct from official distributors with full manufacturer warranty.</p>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-xl border border-border bg-card flex items-start gap-4 shadow-sm">
+            <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0">
+              <Clock className="h-6 w-6" />
+            </div>
+            <div>
+              <h4 className="font-bold text-base text-slate-950 dark:text-white uppercase tracking-wider">QUICK TURNAROUND</h4>
+              <p className="text-sm text-slate-800 dark:text-slate-200 mt-1">Same-day diagnostics and fast repair for laptops and PCs.</p>
+            </div>
+          </div>
+
+          <div className="p-6 rounded-xl border border-border bg-card flex items-start gap-4 shadow-sm">
+            <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0">
+              <ShieldCheck className="h-6 w-6" />
+            </div>
+            <div>
+              <h4 className="font-bold text-base text-slate-950 dark:text-white uppercase tracking-wider">GUARANTEED WORKMANSHIP</h4>
+              <p className="text-sm text-slate-800 dark:text-slate-200 mt-1">Certified technicians with rigorous quality testing standards.</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
